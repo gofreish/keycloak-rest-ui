@@ -1,0 +1,71 @@
+<div>
+    <app-loading [visible]="isLoading()" />
+    <p-card header="Choisir un utilisateur">
+        <p-table
+        [value]="users()"
+        selectionMode="multiple" 
+        [loading]="isLoading()"
+        [(selection)]="selectedUsersList"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [globalFilterFields]="['firstName', 'lastName', 'email']"
+        >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem"></th>
+                <th>email</th>
+                <th>Nom</th>
+                <th>prenom</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="email"
+                        placeholder="Filtrer" 
+                        ariaLabel="Rechercher par email" />
+                </th>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="lastName"
+                        placeholder="Filtrer" 
+                        ariaLabel="Rechercher par nom" />
+                </th>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="firstName"
+                        placeholder="Filtrer" 
+                        ariaLabel="Rechercher par prénom" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="user" />
+                </td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.firstName }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Aucun utilisateur trouvé</td>
+            </tr>
+        </ng-template>
+    </p-table>
+        <ng-template pTemplate="footer">
+            <div class="flex gap-3 mt-1">
+                <p-button (onclick)="annulerSelection()" label="Annuler" severity="secondary" />
+                <p-button (onClick)="usersSelected()" label="Confirmer" />
+            </div>
+        </ng-template>
+    </p-card>
+</div>

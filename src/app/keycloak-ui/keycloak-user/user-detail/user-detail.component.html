@@ -1,0 +1,35 @@
+<div class="card flex justify-content-center">
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="Informations">
+            <div class="flex flex-wrap gap-2">
+                <div>
+                    <p-inputGroup>
+                        <p-inputGroupAddon>Email</p-inputGroupAddon>
+                        <input disabled type="text" pInputText [value]="user().email" />
+                    </p-inputGroup>
+                </div>
+                <div>
+                    <p-inputGroup>
+                        <p-inputGroupAddon>Nom d'utilisateur</p-inputGroupAddon>
+                        <input disabled type="text" pInputText [value]="user().username" />
+                    </p-inputGroup>
+                </div>
+                <div>
+                    <p-inputGroup>
+                        <p-inputGroupAddon>Nom</p-inputGroupAddon>
+                        <input disabled type="text" pInputText [value]="user().lastName" />
+                    </p-inputGroup>
+                </div>
+                <div>
+                    <p-inputGroup>
+                        <p-inputGroupAddon>prénom</p-inputGroupAddon>
+                        <input disabled type="text" pInputText [value]="user().firstName" />
+                    </p-inputGroup>
+                </div>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Roles">
+            
+        </p-accordionTab>
+    </p-accordion>
+</div>
