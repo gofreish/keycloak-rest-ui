@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, WritableSignal, output, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, output, signal } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { KeycloakUser } from '../../model/user.model';
 import { LoadingComponent } from '../../../shared/loading.component';
@@ -29,11 +29,9 @@ export class UserSelectorComponent implements OnInit{
     isLoading: WritableSignal<boolean> = signal(false);
     users: WritableSignal<KeycloakUser[]> = signal([]);
 
-    @Output()
-    selectedUsers: EventEmitter<KeycloakUser[]> = new EventEmitter();
+    selectedUsers = output<KeycloakUser[]>();
 
-    @Output()
-    abortSelection: EventEmitter<any> = new EventEmitter();
+    abortSelection = output<any>();
 
     constructor(
         private userService: UserService

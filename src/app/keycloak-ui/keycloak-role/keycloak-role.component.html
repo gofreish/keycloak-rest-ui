@@ -1,0 +1,61 @@
+<div>
+    <p-toast />
+    <p-confirmDialog />
+    <app-loading [visible]="isLoading()" />
+    <p-card header="Roles">
+        <p-toolbar>
+            <div class="p-toolbar-group-start">
+                <p-button (click)="addNewForm()" severity="success" label="Nouveau" icon="pi pi-plus"/>
+            </div>
+        </p-toolbar>
+    </p-card>
+    <p-table 
+        [value]="roles()" 
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" style="width:20%">
+                    Nom <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="description" style="width:20%">
+                    Description <p-sortIcon field="description" />
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-role>
+            <tr>
+                <td>{{ role.name }}</td>
+                <td>{{ role.description }}</td>
+                <td class="flex gap-2">
+                    <p-button (click)="roleDetail(role)" label="Détails" [text]="true" [raised]="true" />
+                    <p-button (click)="updateForm(role)" icon="pi pi-pen-to-square" severity="secondary" />
+                    <p-button (click)="deleteRoleConfirm($event, role)" icon="pi pi-times" severity="danger" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog header="Role" [modal]="true" [(visible)]="roleFormDialog" [style]="{ width: '25rem' }">
+        <form [formGroup]="roleForm" (ngSubmit)="roleFormSubmit()">
+            <div class="p-2">
+                <div class="flex align-items-center gap-3 mb-3">
+                    <label for="username" class="font-semibold w-6rem">Nom</label>
+                    <input formControlName="name" pInputText class="flex-auto" autocomplete="off" />
+                </div>
+                <div class="flex align-items-center gap-3 mb-5">
+                    <textarea formControlName="description" rows="5" cols="40" pInputTextarea placeholder="Description"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-content-end gap-2">
+                <p-button label="Annuler" severity="secondary" (click)="roleFormDialog = false" />
+                <p-button type="submit" [disabled]="!roleForm.valid" label="Enregistrer" />
+            </div>
+        </form>
+        
+    </p-dialog>
+
+</div>

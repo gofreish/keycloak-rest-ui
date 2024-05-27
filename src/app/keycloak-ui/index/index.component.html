@@ -1,0 +1,20 @@
+<h1>Keycloak API rest UI</h1>
+<div class="card flex justify-content-center">
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="User management">
+            <div>
+                <a [routerLink]="'/keycloak/users'">Users list</a>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Groups management">
+            <div>
+                <a [routerLink]="'/keycloak/groups'">Group list</a>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Role management">
+            <div>
+                <a [routerLink]="'/keycloak/roles'">Role list</a>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>

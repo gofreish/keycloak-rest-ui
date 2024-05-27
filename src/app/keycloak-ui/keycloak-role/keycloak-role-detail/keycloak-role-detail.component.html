@@ -1,0 +1,40 @@
+<div>
+    <p-toast />
+    <app-loading [visible]="isLoading()" />
+    <p-card header="Rôle">
+        <p-accordion [activeIndex]="0">
+            <p-accordionTab header="Informations">
+                <div class="flex flex-wrap gap-2">
+                    <div>
+                        <p-inputGroup>
+                            <p-inputGroupAddon>Nom</p-inputGroupAddon>
+                            <input disabled type="text" pInputText [value]="role().name" />
+                        </p-inputGroup>
+                    </div>
+                    <div>
+                        <p-inputGroup>
+                            <p-inputGroupAddon>Description</p-inputGroupAddon>
+                            <input disabled type="text" pInputText [value]="role().description" />
+                        </p-inputGroup>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab header="Utilisateurs ayant ce rôle">
+                <div>
+                    <div>
+                        <p-button (onClick)="selectUserDialog=true" label="Ajouter" [text]="true" [raised]="true" />
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        @for(user of users(); track user.id){
+                            <p-chip [label]="user.firstName+' '+user.lastName" [removable]="true" (onRemove)="removeUserRole($event, user)"/>
+                        }
+                    </div>
+                </div>
+            </p-accordionTab>
+        </p-accordion>
+    </p-card>
+
+    <p-dialog [modal]="true" [(visible)]="selectUserDialog" [style]="{ width: '75%' }">
+        <app-user-selector (selectedUsers)="usersSelected($event)" (abortSelection)="abortUserSelection($event)" />
+    </p-dialog>
+</div>
