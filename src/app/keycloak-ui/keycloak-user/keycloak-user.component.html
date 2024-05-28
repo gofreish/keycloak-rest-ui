@@ -1,6 +1,7 @@
 <div>
     <p-toast />
-    <app-loading [visible]="isLoading()" />
+    <app-keycloak-loading [visible]="isLoading()" />
+    <p-confirmPopup />
     <p-card header="Utilisateurs">
         <p-toolbar>
             <div class="p-toolbar-group-start">
@@ -16,6 +17,9 @@
         [rowsPerPageOptions]="[10, 20]">
         <ng-template pTemplate="header">
             <tr>
+                <th>
+                    Statut
+                </th>
                 <th pSortableColumn="username" style="width:20%">
                     Nom d'utilisateur <p-sortIcon field="username" />
                 </th>
@@ -33,13 +37,27 @@
         </ng-template>
         <ng-template pTemplate="body" let-user>
             <tr>
-                <td>{{ user.username }}</td>
+                <td>
+                    @if(user.isConnected){ <p-badge value="connecté" severity="success" /> }
+                    @else{ <p-badge value="déconnecté" severity="danger" /> }
+                </td>
+                <td>
+                    {{ user.username }}
+                </td>
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.email }}</td>
-                <td>
+                <td class="flex gap-2">
+                    @if (user.enabled) {
+                        <p-button (onClick)="changeAccountConfirm($event, user.id, false)" label="Désactiver" severity="danger" [text]="true" [raised]="true" />
+                    }@else {
+                        <p-button (onClick)="changeAccountConfirm($event, user.id, true)" label="Activer" severity="success" [text]="true" [raised]="true" />
+                    }
                     <p-button (onClick)="seeDetail(user.id)" label="Détails" [text]="true" [raised]="true" />
                     <p-button (click)="updateForm(user)" icon="pi pi-pen-to-square" severity="secondary" />
+                    @if(user.username != connectedUsername && user.isConnected){
+                        <p-button (onClick)="logoutUser(user.id)" label="Le déconnecter" severity="danger" [text]="true" [raised]="true" />
+                    }
                 </td>
             </tr>
         </ng-template>

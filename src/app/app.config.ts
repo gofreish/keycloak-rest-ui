@@ -4,8 +4,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
-import { httpTokenInterceptor } from './interceptor/http-token.interceptor';
-import { KeycloakService } from './service/keycloak.service';
+import { httpTokenInterceptor } from './keycloak-ui/interceptor/http-token.interceptor';
+import { KeycloakService } from './keycloak-ui/service/keycloak.service';
 import { httpErrorInterceptor } from './interceptor/http-error.interceptor';
 
 export const appConfig: ApplicationConfig = {

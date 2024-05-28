@@ -12,8 +12,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { LoadingComponent } from '../../shared/loading.component';
 import { Router } from '@angular/router';
+import { KeycloakLoadingComponent } from '../shared/keycloak-loading.component';
 
 @Component({
   selector: 'app-keycloak-role',
@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     ToastModule,
     ConfirmDialogModule,
-    LoadingComponent
+    KeycloakLoadingComponent
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './keycloak-role.component.html',

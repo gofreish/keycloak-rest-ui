@@ -1,35 +1,50 @@
 <div class="card flex justify-content-center">
-    <p-accordion [activeIndex]="0">
-        <p-accordionTab header="Informations">
-            <div class="flex flex-wrap gap-2">
-                <div>
-                    <p-inputGroup>
-                        <p-inputGroupAddon>Email</p-inputGroupAddon>
-                        <input disabled type="text" pInputText [value]="user().email" />
-                    </p-inputGroup>
+    <app-keycloak-loading [visible]="isLoading()" />
+    <p-card header="Utilisateur">
+        <p-accordion [activeIndex]="0">
+            <p-accordionTab header="Informations">
+                <div class="flex flex-wrap gap-2">
+                    <div>
+                        <p-inputGroup>
+                            <p-inputGroupAddon>Email</p-inputGroupAddon>
+                            <input disabled type="text" pInputText [value]="user().email" />
+                        </p-inputGroup>
+                    </div>
+                    <div>
+                        <p-inputGroup>
+                            <p-inputGroupAddon>Nom d'utilisateur</p-inputGroupAddon>
+                            <input disabled type="text" pInputText [value]="user().username" />
+                        </p-inputGroup>
+                    </div>
+                    <div>
+                        <p-inputGroup>
+                            <p-inputGroupAddon>Nom</p-inputGroupAddon>
+                            <input disabled type="text" pInputText [value]="user().lastName" />
+                        </p-inputGroup>
+                    </div>
+                    <div>
+                        <p-inputGroup>
+                            <p-inputGroupAddon>prénom</p-inputGroupAddon>
+                            <input disabled type="text" pInputText [value]="user().firstName" />
+                        </p-inputGroup>
+                    </div>
                 </div>
+            </p-accordionTab>
+            <p-accordionTab header="Roles">
                 <div>
-                    <p-inputGroup>
-                        <p-inputGroupAddon>Nom d'utilisateur</p-inputGroupAddon>
-                        <input disabled type="text" pInputText [value]="user().username" />
-                    </p-inputGroup>
+                    <div >
+                        <p-dropdown [options]="clientRolesList()" [(ngModel)]="selectedRole" optionLabel="name" placeholder="Choisir un rôle" />
+                        <button [disabled]="selectedRole==undefined" (click)="addRoleToClient()" type="button" pButton label="Ajouter"></button>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        @for(role of userRoles(); track role.id){
+                            <p-chip [label]="role.name" [removable]="true" (onRemove)="removeUserRole($event, role)"/>
+                        } @empty {
+                            <p-chip label="Aucun rôle attribué" />
+                        }
+                    </div>
                 </div>
-                <div>
-                    <p-inputGroup>
-                        <p-inputGroupAddon>Nom</p-inputGroupAddon>
-                        <input disabled type="text" pInputText [value]="user().lastName" />
-                    </p-inputGroup>
-                </div>
-                <div>
-                    <p-inputGroup>
-                        <p-inputGroupAddon>prénom</p-inputGroupAddon>
-                        <input disabled type="text" pInputText [value]="user().firstName" />
-                    </p-inputGroup>
-                </div>
-            </div>
-        </p-accordionTab>
-        <p-accordionTab header="Roles">
-            
-        </p-accordionTab>
-    </p-accordion>
+            </p-accordionTab>
+        </p-accordion>
+    </p-card>
 </div>

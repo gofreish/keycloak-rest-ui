@@ -5,6 +5,7 @@ export interface KeycloakUser{
     lastName: string,
     email: string,
     enabled: boolean,
+    isConnected?: boolean,
     createdTimestamp?: string,
     access?: any,
     disableableCredentialTypes?: any
@@ -19,5 +20,6 @@ export const DefaultKeycloakUser: KeycloakUser = {
     firstName: "",
     lastName: "",
     email: "",
-    enabled: true
+    enabled: true,
+    isConnected: false
 }

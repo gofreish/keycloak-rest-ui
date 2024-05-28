@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { KEYCLOAK_CONFIG } from '../../keycloak-config';
+import { KEYCLOAK_CONFIG } from '../keycloak-config';
 import { firstValueFrom } from 'rxjs';
-import { KeycloakService } from '../../service/keycloak.service';
+import { KeycloakService } from './keycloak.service';
 import { Role } from '../model/role.model';
 import { KeycloakUser } from '../model/user.model';
 

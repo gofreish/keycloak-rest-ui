@@ -1,7 +1,6 @@
 import { Component, OnInit, WritableSignal, output, signal } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { KeycloakUser } from '../../model/user.model';
-import { LoadingComponent } from '../../../shared/loading.component';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
@@ -9,12 +8,13 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
+import { KeycloakLoadingComponent } from '../../shared/keycloak-loading.component';
 
 @Component({
   selector: 'app-user-selector',
   standalone: true,
   imports: [
-    LoadingComponent,
+    KeycloakLoadingComponent,
     TableModule,
     CommonModule,
     CardModule,

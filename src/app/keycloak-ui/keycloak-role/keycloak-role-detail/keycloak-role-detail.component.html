@@ -1,6 +1,6 @@
 <div>
     <p-toast />
-    <app-loading [visible]="isLoading()" />
+    <app-keycloak-loading [visible]="isLoading()" />
     <p-card header="Rôle">
         <p-accordion [activeIndex]="0">
             <p-accordionTab header="Informations">
@@ -27,6 +27,8 @@
                     <div class="flex flex-wrap gap-2 mt-2">
                         @for(user of users(); track user.id){
                             <p-chip [label]="user.firstName+' '+user.lastName" [removable]="true" (onRemove)="removeUserRole($event, user)"/>
+                        } @empty {
+                            <p-chip label="Aucun utilisateur pour ce rôle" />
                         }
                     </div>
                 </div>

@@ -10,9 +10,12 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
-import { LoadingComponent } from '../../shared/loading.component';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { KeycloakLoadingComponent } from '../shared/keycloak-loading.component';
+import { BadgeModule } from 'primeng/badge';
+import { KeycloakService } from '../service/keycloak.service';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
   selector: 'app-keycloak-user',
@@ -27,13 +30,16 @@ import { ToastModule } from 'primeng/toast';
     ReactiveFormsModule,
     CheckboxModule,
     ToastModule,
-    LoadingComponent
+    KeycloakLoadingComponent,
+    BadgeModule,
+    ConfirmPopupModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './keycloak-user.component.html',
 })
 export class KeycloakUserComponent implements OnInit{
 
+    connectedUsername: string|undefined = undefined;
     users: WritableSignal<KeycloakUser[]> = signal([]);
     isLoading: WritableSignal<boolean> = signal(false);
     newUserForm!: FormGroup;
@@ -45,12 +51,15 @@ export class KeycloakUserComponent implements OnInit{
         private userService: UserService,
         private router: Router,
         private fb: FormBuilder,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private keycloakService: KeycloakService,
+        private confirmationService: ConfirmationService
     ){}
 
     ngOnInit(): void {
         this.initForms();
         this.updateUserList();
+        this.connectedUsername = this.keycloakService.profile?.username;
     }
 
     updateUserList(){
@@ -189,5 +198,43 @@ export class KeycloakUserComponent implements OnInit{
             user => user.id === id
         );
         return index != -1 ? index : undefined;
+    }
+
+    async logoutUser(userId: string){
+        try {
+            await this.userService.logoutUser(userId);
+            this.updateUserList();
+            this.messageService.add({ severity: 'info', summary: 'Terminé', detail: "L'utilisateur à été déconnecté" });
+        } catch (error) {
+            this.messageService.add({ severity: 'error', summary: 'Erreur', detail: `Oups une erreur s'est produite veuillez reprendre` });
+        }
+    }
+
+    /**
+     * Dialogue de confirmation pour activer ou désactiver un compte
+     * @param event 
+     */
+    changeAccountConfirm(event: Event, userId: string, newStatus: boolean) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Voulez vous continuer?',
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: "Oui",
+            rejectLabel: "Non",
+            accept: () => {
+                this.changeAccountStatus(userId, newStatus)
+                .then( resp => this.messageService.add({ severity: 'info', summary: 'Terminé', detail: 'Compte désactivé', life: 3000 }))
+                .catch(err => this.messageService.add({ severity: 'error', summary: 'Erreur', detail: "Oups une erreur s'est produite" }));
+            }
+        });
+    }
+
+    async changeAccountStatus(userId: string, status: boolean){
+        this.isLoading.update(value => !value);
+        await this.userService.updateUserAccountStatut(userId, status);
+        this.users.set(
+            await this.userService.getAllUsers()
+        );
+        this.isLoading.update(value => !value);
     }
 }

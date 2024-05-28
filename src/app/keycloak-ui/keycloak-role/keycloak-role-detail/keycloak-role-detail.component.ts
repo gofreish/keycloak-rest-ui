@@ -6,7 +6,6 @@ import { AccordionModule } from 'primeng/accordion';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { CardModule } from 'primeng/card';
-import { LoadingComponent } from '../../../shared/loading.component';
 import { KeycloakUser } from '../../model/user.model';
 import { ChipModule } from 'primeng/chip';
 import { DialogModule } from 'primeng/dialog';
@@ -15,6 +14,7 @@ import { UserSelectorComponent } from '../../keycloak-user/user-selector/user-se
 import { firstValueFrom, forkJoin } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { KeycloakLoadingComponent } from '../../shared/keycloak-loading.component';
 
 @Component({
   selector: 'app-keycloak-role-detail',
@@ -24,7 +24,7 @@ import { ToastModule } from 'primeng/toast';
     InputGroupModule,
     InputGroupAddonModule,
     CardModule,
-    LoadingComponent,
+    KeycloakLoadingComponent,
     ChipModule,
     DialogModule,
     ButtonModule,
